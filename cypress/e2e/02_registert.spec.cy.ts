@@ -1,48 +1,46 @@
 import '@testing-library/cypress/add-commands';
 
-describe('Tela de cadastro', () => {
+describe('Registration Page', () => {
   beforeEach(() => {
     cy.visit(`${Cypress.config('baseUrl')}/register`);
   });
 
-  it('Verifica se todos os elementos estão visíveis na tela', () => {
+  it('Checks if all elements are visible on the screen', () => {
     cy.findByRole('img', { name: /ng\.cash/i }).should('exist');
-    cy.findByText('Criar conta').should('exist');
-    cy.findByPlaceholderText('Nome de usuário').should('exist');
-    cy.findByPlaceholderText('Senha').should('exist');
-    cy.findByRole('button', { name: /enviar/i }).should('exist');
+    cy.findByText('Create Account').should('exist');
+    cy.findByPlaceholderText('Username').should('exist');
+    cy.findByPlaceholderText('Password').should('exist');
+    cy.findByRole('button', { name: /submit/i }).should('exist');
     cy.findByText(
-      /full stack project desenvolvido por com next\.js e node\.js/i
+      /full stack project developed with next\.js and node\.js/i
     ).should('exist');
     cy.findByText(
-      /a senha precisa ter pelo menos 8 caracteres, um número e uma letra maiúscula\./i
+      /password must be at least 8 characters long, contain a number and an uppercase letter\./i
     ).should('not.exist');
   });
 
-  it('Verifica se a mensagem de erro aparece quando tentamos fazer um cadastro com uma senha que não atende os critérios de segurança', () => {
-    cy.findByPlaceholderText('Nome de usuário').type(
+  it('Checks if an error message appears when trying to register with a weak password', () => {
+    cy.findByPlaceholderText('Username').type(
       `mileycyrus${Date.now().toFixed().slice(0, 8)}`
     );
-    cy.findByPlaceholderText('Senha').type('qualquer_senha_123');
-    cy.findByRole('button', { name: /enviar/i }).click();
+    cy.findByPlaceholderText('Password').type('any_password_123');
+    cy.findByRole('button', { name: /submit/i }).click();
     cy.findByText(
-      /a senha precisa ter pelo menos 8 caracteres, um número e uma letra maiúscula\./i
+      /password must be at least 8 characters long, contain a number and an uppercase letter\./i
     ).should('exist');
   });
 
-  it('Verifica que aparece um modal indicando que o usuário foi criado com sucesso e ao clicar, somos redirecionados para a tela de login', () => {
-    cy.findByPlaceholderText('Nome de usuário').type(
+  it('Checks that a success modal appears when the user is created and that clicking it redirects to the login page', () => {
+    cy.findByPlaceholderText('Username').type(
       `mileycyrus${Date.now().toFixed().slice(0, 8)}1`
     );
-    cy.findByPlaceholderText('Senha').type('Qualquer_senha_123');
-    cy.findByRole('button', { name: /enviar/i }).click();
-    cy.findByText(/usuário criado com sucesso!/i).should('exist');
-    cy.findByRole('button', {
-      name: /entrar/i,
-    }).should('exist');
-    cy.findByRole('button', {
-      name: /entrar/i,
-    }).click();
+    cy.findByPlaceholderText('Password').type('Valid_password_123');
+    cy.findByRole('button', { name: /submit/i }).click();
+
+    cy.findByText(/user created successfully!/i).should('exist');
+    cy.findByRole('button', { name: /login/i }).should('exist');
+
+    cy.findByRole('button', { name: /login/i }).click();
     cy.url().should('be.equal', `${Cypress.config('baseUrl')}/`);
   });
 });
