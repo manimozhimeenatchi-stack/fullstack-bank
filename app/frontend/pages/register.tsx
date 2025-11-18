@@ -76,24 +76,28 @@ export default function Register() {
   return (
     <div className={styles.page}>
       <Head>
-        <title>DW.CASH - Cadastro</title>
-        <meta name="description" content="Projeto fullstack de carteira digital" />
+        <title>DW.CASH - Register</title>
+        <meta
+          name="description"
+          content="Full stack project developed by Manimozhi using Next.js and Node.js"
+        />
         <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main>
         <form className={styles.form} action="POST" onSubmit={handleSubmit}>
           <header>
-            <Image className={styles.page__logo} src={logo} alt="NG.CASH" />
-            <p>Criar conta</p>
+            <Image className={styles.page__logo} src={logo} alt="DW.CASH Logo" />
+            <p>Create Account</p>
           </header>
+
           <div className={styles['form__input-container']}>
             <input
               type="text"
               name="username"
               value={username}
               onChange={handleChange}
-              placeholder="Nome de usuário"
+              placeholder="Username"
               onFocus={() => handleFocus('username')}
               onBlur={() => handleFocus('')}
             />
@@ -103,43 +107,13 @@ export default function Register() {
               <FaUserAlt />
             </span>
           </div>
+
           <div className={styles['form__input-container']}>
             <input
               type="password"
               name="password"
               value={password}
               onChange={handleChange}
-              placeholder="Senha"
+              placeholder="Password"
               onFocus={() => handleFocus('password')}
               onBlur={() => handleFocus('')}
-            />
-            <span
-              className={`${styles.form__icon} ${getIconModifier('password')}`}
-            >
-              <FaLock />
-            </span>
-          </div>
-          {!!errorMessage && (
-            <p className={styles['form__error-message']}>{errorMessage}</p>
-          )}
-          <button
-            className={styles.form__button}
-            type="submit"
-            disabled={disableButton()}
-          >
-            ENVIAR
-          </button>
-        </form>
-
-        <Modal
-          display={displayModal}
-          message="Usuário criado com sucesso!"
-          buttonMessage="ENTRAR"
-          handleClick={() => router.push('/')}
-        />
-      </main>
-
-      <Footer />
-    </div>
-  );
-}
