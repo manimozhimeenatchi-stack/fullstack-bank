@@ -1,39 +1,44 @@
 import '@testing-library/cypress/add-commands';
 
-/* Em andamento */
+/* In progress */
 
-describe('Tela de dashboard', () => {
+describe('Dashboard Page', () => {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.visit(Cypress.config('baseUrl'));
 
-    cy.findByPlaceholderText('Nome de usuário').type('raphaelmartins');
-    cy.findByPlaceholderText('Senha').type('Bank_secret_123');
-    cy.findByRole('button', { name: /enviar/i }).click();
+    cy.findByPlaceholderText('Username').type('manimozhi');
+    cy.findByPlaceholderText('Password').type('Bank_secret_123');
+    cy.findByRole('button', { name: /submit/i }).click();
   });
 
-  it('Verifica se elementos estão na tela', () => {
+  it('Checks if dashboard elements are visible on the screen', () => {
     cy.findByRole('heading', {
-      name: /olá @raphaelmartins/i,
+      name: /hello @manimozhi/i,
     }).should('be.visible');
+
     cy.findByRole('button', {
-      name: /sair/i,
+      name: /logout/i,
     }).should('be.visible');
+
     cy.findByRole('button', {
-      name: /atualizar/i,
+      name: /refresh/i,
     }).should('be.visible');
+
     cy.findByRole('heading', {
-      name: /saldo disponível:/i,
+      name: /available balance:/i,
     }).should('be.visible');
+
     cy.findByRole('heading', {
-      name: /transferir/i,
+      name: /transfer/i,
     }).should('be.visible');
   });
 
-  it('Verifica botão de sair', () => {
+  it('Checks the logout button functionality', () => {
     cy.findByRole('button', {
-      name: /sair/i,
+      name: /logout/i,
     }).click();
+
     cy.url().should('be.equal', `${Cypress.config('baseUrl')}/`);
   });
 });
