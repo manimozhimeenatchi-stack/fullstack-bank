@@ -14,7 +14,8 @@ export default function Dashboard() {
   const [token, setToken] = useState('');
   const [username, setUserName] = useState('');
 
-  const [balance, setBalance] = useState('0,00');
+  // Using English number format
+  const [balance, setBalance] = useState('0.00');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogout = () => {
@@ -30,7 +31,8 @@ export default function Dashboard() {
       switch (response.status) {
         case StatusCodes.OK:
           setErrorMessage('');
-          setBalance(data.balance.toFixed(2).replace('.', ','));
+          // Convert to English decimal format
+          setBalance(data.balance.toFixed(2));
           break;
 
         case StatusCodes.UNAUTHORIZED:
@@ -64,14 +66,17 @@ export default function Dashboard() {
   return (
     <div className={styles.page}>
       <Head>
-        <title>DW.CASH - Início</title>
-        <meta name="description" content="Projeto fullstack de carteira digital" />
+        <title>DW.CASH - Dashboard</title>
+        <meta
+          name="description"
+          content="Full stack digital wallet project developed by Manimozhi"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <header className={styles.header}>
-        <h1>{`Olá @${username}`}</h1>
-        <button type="button" title="Sair" onClick={handleLogout}>
+        <h1>{`Hello @${username}`}</h1>
+        <button type="button" title="Logout" onClick={handleLogout}>
           <MdLogout />
         </button>
       </header>
@@ -79,18 +84,29 @@ export default function Dashboard() {
       <main className={styles.main}>
         <section className={styles.balance}>
           <div className={styles.balance__label}>
-            <h2>Saldo disponível:</h2>
-            <button type="button" title="Atualizar" onClick={() => handleUpdateBalance(token)}>
+            <h2>Available Balance:</h2>
+            <button
+              type="button"
+              title="Refresh"
+              onClick={() => handleUpdateBalance(token)}
+            >
               <GrUpdate />
             </button>
           </div>
-          <span className={styles.balance__value}>{`R$ ${balance}`}</span>
+
+          {/* Display in English currency format */}
+          <span className={styles.balance__value}>{`$ ${balance}`}</span>
+
           {!!errorMessage && <p>{errorMessage}</p>}
         </section>
 
         <TransferForm token={token} updateBalance={handleUpdateBalance} />
 
-        <TransactionsList token={token} username={username} balance={balance} />
+        <TransactionsList
+          token={token}
+          username={username}
+          balance={balance}
+        />
       </main>
     </div>
   );
