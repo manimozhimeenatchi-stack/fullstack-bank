@@ -27,7 +27,7 @@ describe('Login Page', () => {
   });
 
   it('Checks if user is redirected to dashboard after logging in with valid credentials', () => {
-    cy.findByPlaceholderText('Username').type('raphaelmartins');
+    cy.findByPlaceholderText('Username').type('manimozhi');
     cy.findByPlaceholderText('Password').type('Bank_secret_123');
     cy.findByRole('button', { name: /submit/i }).click();
     cy.url().should('be.equal', `${Cypress.config('baseUrl')}/dashboard`);
